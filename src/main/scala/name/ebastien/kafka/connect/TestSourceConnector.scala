@@ -8,11 +8,19 @@ import org.apache.kafka.connect.connector.Task;
 import org.apache.kafka.connect.errors.ConnectException;
 import org.apache.kafka.connect.source.SourceConnector;
 
+import com.typesafe.scalalogging.Logger
+
 import collection.JavaConverters._
 
+/**
+ * TestSourceConnector is an infinite source of records
+ */
 class TestSourceConnector extends SourceConnector {
 
-  var connectorProps : java.util.Map[String,String] = new java.util.HashMap()
+  private val log = Logger[TestSourceConnector]
+
+  private var connectorProps = new java.util.HashMap()
+                             : java.util.Map[String,String]
 
   override def config(): ConfigDef = TestSourceConnector.configDef
   
@@ -26,9 +34,13 @@ class TestSourceConnector extends SourceConnector {
       )
 
     connectorProps = props
+
+    log.info("Connector started")
   }
   
-  override def stop(): Unit = {}
+  override def stop(): Unit = {
+    log.info("Connector stopped")
+  }
   
   override def taskClass(): Class[_ <: Task] = classOf[TestSourceTask]
 

@@ -10,6 +10,7 @@ repositories {
 dependencies {
   compile "org.scala-lang:scala-library:2.11.8"
   compile "org.scalaz:scalaz-core_2.11:7.2.0"
+  compile "com.typesafe.scala-logging:scala-logging_2.11:3.5.0"
   compile "org.apache.kafka:connect-api:0.10.2.0"
 }
 

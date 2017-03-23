@@ -4,13 +4,22 @@ import org.apache.kafka.connect.errors.ConnectException;
 import org.apache.kafka.connect.source.SourceRecord;
 import org.apache.kafka.connect.source.SourceTask;
 
+import com.typesafe.scalalogging.Logger
+
 import collection.JavaConverters._
 
+/**
+ * TestSourceTask is an infinite source of records
+ */
 class TestSourceTask extends SourceTask {
 
-  var state : Option[TestSourceState] = None
+  private val log = Logger[TestSourceTask]
+
+  private var state = None : Option[TestSourceState]
 
   override def poll(): java.util.List[SourceRecord] = {
+
+    log.debug("Waiting for the next event...")
 
     wait(1000)
 
@@ -27,9 +36,13 @@ class TestSourceTask extends SourceTask {
       )
 
     state = topic.map(t => TestSourceState(t))
+
+    log.info("Task started")
   }
 
-  override def stop(): Unit = {}
+  override def stop(): Unit = {
+    log.info("Task stopped")
+  }
 
   override def version(): String = TestSourceConnector.version
 }

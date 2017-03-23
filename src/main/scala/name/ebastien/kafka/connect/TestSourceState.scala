@@ -3,6 +3,9 @@ package name.ebastien.kafka.connect
 import org.apache.kafka.connect.source.SourceRecord;
 import org.apache.kafka.connect.data.Schema;
 
+/**
+ * TestSourceState is an infinite source of records
+ */
 case class TestSourceState(topic: String) {
   
   def poll : Seq[SourceRecord] = {
