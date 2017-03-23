@@ -1,0 +1,50 @@
+apply plugin: 'scala'
+
+repositories {
+  mavenCentral()
+  maven {
+    url "http://conjars.org/repo"
+  }
+}
+
+dependencies {
+  compile "org.scala-lang:scala-library:2.11.8"
+  compile "org.scalaz:scalaz-core_2.11:7.2.0"
+  compile "org.apache.kafka:connect-api:0.10.2.0"
+}
+
+dependencies {
+  testCompile "org.specs2:specs2-core_2.11:3.7.3"
+  testCompile "org.specs2:specs2-junit_2.11:3.7.3"
+}
+
+tasks.withType(ScalaCompile) {
+  scalaCompileOptions.additionalParameters = [
+    "-deprecation",           
+    "-encoding", "UTF-8",
+    "-feature",                
+    "-language:existentials",
+    "-language:higherKinds",
+    "-language:implicitConversions",
+    "-unchecked",
+    "-Xfatal-warnings",       
+    "-Xlint",
+    "-Yno-adapted-args",       
+    "-Ywarn-dead-code",
+    "-Ywarn-numeric-widen",   
+    "-Ywarn-value-discard",
+    "-Xfuture",
+    "-Ywarn-unused-import"
+  ]
+}
+
+task specs(type: JavaExec, dependsOn: testClasses) {
+  main = 'org.specs2.runner.files'
+  args = ['console']
+  classpath sourceSets.main.runtimeClasspath
+  classpath sourceSets.test.runtimeClasspath
+  classpath configurations.testRuntime
+  classpath configurations.runtime
+}
+
+test.dependsOn specs
