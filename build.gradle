@@ -1,10 +1,17 @@
 apply plugin: 'scala'
+apply plugin: 'application'
+
+mainClassName = "org.gradle.sample.Main"
+
+def nexusBaseURL = System.getenv('NEXUS_BASEURL')
 
 repositories {
-  mavenCentral()
-  maven {
-    url "http://conjars.org/repo"
+  if (nexusBaseURL != null) {
+    maven {
+      url "${nexusBaseURL}/maven-central/"
+    }
   }
+  mavenCentral()
 }
 
 dependencies {
@@ -21,18 +28,18 @@ dependencies {
 
 tasks.withType(ScalaCompile) {
   scalaCompileOptions.additionalParameters = [
-    "-deprecation",           
+    "-deprecation",
     "-encoding", "UTF-8",
-    "-feature",                
+    "-feature",
     "-language:existentials",
     "-language:higherKinds",
     "-language:implicitConversions",
     "-unchecked",
-    "-Xfatal-warnings",       
+    "-Xfatal-warnings",
     "-Xlint",
-    "-Yno-adapted-args",       
+    "-Yno-adapted-args",
     "-Ywarn-dead-code",
-    "-Ywarn-numeric-widen",   
+    "-Ywarn-numeric-widen",
     "-Ywarn-value-discard",
     "-Xfuture",
     "-Ywarn-unused-import"
