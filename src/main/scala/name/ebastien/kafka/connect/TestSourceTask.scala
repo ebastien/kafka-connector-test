@@ -21,7 +21,9 @@ class TestSourceTask extends SourceTask {
 
     log.debug("Waiting for the next event...")
 
-    wait(1000)
+    this.synchronized {
+      wait(1000)
+    }
 
     state.map(_.poll).getOrElse(List()).asJava
   }
